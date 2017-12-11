@@ -1,34 +1,22 @@
 defmodule Solution do
 
-  def valid?(""), do: false
-  def valid?(string) do
-    string
-    |> String.split()
-    |> duplicate?
-  end
-
+  def duplicate?([]), do: false
   def duplicate?(arr), do: arr |> MapSet.new |> MapSet.size |> Kernel.==(length(arr))
 
   def sort_string(str), do: str |> to_charlist |> Enum.sort |> to_string
 
-  def any_anagram?(""), do: false
-  def any_anagram?(string) do
-    string
-    |> String.split()
-    |> Enum.map(&sort_string/1)
-    |> duplicate?
-  end
-
   def count_valid(lines) do
     lines
     |> String.split("\n")
-    |> Enum.count(&valid?/1)
+    |> Enum.map(&String.split/1)
+    |> Enum.count(&duplicate?/1)
   end
 
   def count_valid_2(lines) do
     lines
     |> String.split("\n")
-    |> Enum.count(&any_anagram?/1)
+    |> Enum.map(fn line -> line |> String.split |> Enum.map(&sort_string/1) end)
+    |> Enum.count(&duplicate?/1)
   end
 end
 
